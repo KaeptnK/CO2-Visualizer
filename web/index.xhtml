@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    
+    <h:head>
+        <title>CO2 Visualizer</title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage = "true">
+            
+            <p:layoutUnit position="north" size="100">
+                <h1><center> CO2 Emission Visualizer </center></h1>        
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="west" size="250">
+   
+            </p:layoutUnit>
+            <p:layoutUnit position="east" size="250">
+   
+            </p:layoutUnit> 
+            
+            <p:layoutUnit position="south" size="100">
+                All values are kt (1000 metric tons)             
+            </p:layoutUnit> 
+            
+            <p:layoutUnit position="center" size="400">
+                 
+                 
+
+                <p:tabView>
+                    <p:tab title="Citizen">
+                        <p class="p-m-0">
+                            This tab is intended for citizens who want to look up the current CO2 emission of their own country.
+                        </p>
+
+                        <h:form id="buerger">
+
+
+                            <p:outputLabel value="Select Country: " for="setBuergerSelectionCountry"/>
+                            <p:selectOneMenu id="setBuergerSelectionCountry" value="#{controllerBean.citizenSelectionCountry}" var="c">
+                                <f:selectItems value="#{controllerBean.countries}" var="buergerSelectionCountry"/>
+                                <p:ajax event="change" update="outputBuergerSelectionCountry, outputBuergerValue" />-->
+                            </p:selectOneMenu>
+
+
+
+                         <p />
+
+                            The current CO2 emissions of
+                            <h:outputText value="#{controllerBean.citizenSelectionCountry}" id="outputBuergerSelectionCountry" />
+                            are
+                            <h:outputText value="#{controllerBean.citizenValue}" id="outputBuergerValue" />
+                            kilo tons per year (latest value available).
+
+                        </h:form>
+
+                    </p:tab>
+
+
+                    <p:tab title="Politician">
+                        <p>
+                            This is intended for politicians who want see the development of CO2 emissions in their country over the years.
+                        </p>
+
+                        <h:form id="politiker" >
+                            <p:outputLabel value="Select Country: " for="setPoliticianSelectionCountry"/>
+                            <p:selectOneMenu id="setPoliticianSelectionCountry" value="#{controllerBean.politicianSelectionCountry}">
+                                <f:selectItems value="#{controllerBean.countries}" var="politicianSelectionCountry"/>
+                                <p:ajax event="change" update="outputPoliticianTable" />
+                            </p:selectOneMenu>
+
+                            <p:dataTable var="aPolitician" value="#{controllerBean.databasePolitician}" id="outputPoliticianTable"  sortOrder ="asc">
+                                <f:facet name="header">
+                                    CO2 emissions for <h:outputText value="#{controllerBean.politicianSelectionCountry}" />
+                                </f:facet>
+
+                                <p:column headerText="Year" >
+                                    <f:facet name="header">Year</f:facet>
+                                    <h:outputText value="#{aPolitician.year}" />
+                                </p:column>
+                                <p:column headerText="Value" >
+                                    <h:outputText value="#{aPolitician.value}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+
+
+
+                    <p:tab title="NGO Worker">
+                        This tab is intended for the employees of NGO who want to get a ranking of the current CO2 emissions of all states for a specific year.
+                        <h:form id="ngo">
+
+                            <p:outputLabel value="Select Year: " for="setNGOSelectionYear"/>
+                            <p:selectOneMenu id="setNGOSelectionYear" value="#{controllerBean.ngoSelectionYear}">
+                                <f:selectItems value="#{controllerBean.years}" var="ngoSelectionYear"/>
+                                <p:ajax event="change" update="outputNGOTable" />
+                            </p:selectOneMenu>
+
+                            <p:dataTable var="ngoWorker" value="#{controllerBean.databaseNGO}" id="outputNGOTable"  sortOrder ="asc">
+                                <f:facet name="header">
+                                    CO2 emissions for <h:outputText value="#{controllerBean.ngoSelectionYear}" />
+                                </f:facet>
+
+                                <p:column headerText="Country" >
+                                    <f:facet name="Country">Year</f:facet>
+                                    <h:outputText value="#{ngoWorker.land}" />
+                                </p:column>
+                                <p:column headerText="Value" >
+                                    <f:facet name="Value">Year</f:facet>
+                                    <h:outputText value="#{ngoWorker.value}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>                 
+
+
+
+
+
+                </p:tabView>
+            </p:layoutUnit>            
+            
+            
+            
+        </p:layout>
+       
+    </h:body>
+</html>
+
